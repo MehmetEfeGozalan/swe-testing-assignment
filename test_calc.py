@@ -8,6 +8,15 @@ class TestCalc(unittest.TestCase):
     def test_sub(self):
         self.assertEqual(compute(10, '-', 4), 6)
 
+    def test_divwithminus(self):
+        self.assertEqual(compute(8, '/', -2), -4)
+
+    def test_mulwithminus(self):
+        self.assertEqual(compute(10, '*', -3), -30)
+
+    def test_mulwithfraction(self):
+        self.assertEqual(compute(10, '*', 0.5), 5.0)
+
     def test_mul(self):
         self.assertEqual(compute(6, '*', 7), 42)
 
