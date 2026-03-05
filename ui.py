@@ -84,11 +84,13 @@ class CalculatorGUI:
         entry = tk.Entry(self.master, textvariable=self.display_var, justify='right', font=('Arial', 18), bd=10)
         entry.grid(row=0, column=0, columnspan=4, sticky='nsew')
 
+        # Note: swapped positions so Clear ('C') is where '=' used to be,
+        # and '=' is now the full-width bottom button for clarity.
         btns = [
             ('7', self._on_digit), ('8', self._on_digit), ('9', self._on_digit), ('/', self._on_op),
             ('4', self._on_digit), ('5', self._on_digit), ('6', self._on_digit), ('*', self._on_op),
             ('1', self._on_digit), ('2', self._on_digit), ('3', self._on_digit), ('-', self._on_op),
-            ('0', self._on_digit), ('.', self._on_dot), ('=', self._on_equals), ('+', self._on_op),
+            ('0', self._on_digit), ('.', self._on_dot), ('C', self._on_clear), ('+', self._on_op),
         ]
 
         r = 1
@@ -101,8 +103,8 @@ class CalculatorGUI:
                 c = 0
                 r += 1
 
-        clear = tk.Button(self.master, text='C', command=self._on_clear, width=5, height=2, font=('Arial', 14))
-        clear.grid(row=r, column=0, columnspan=4, sticky='nsew')
+        equals = tk.Button(self.master, text='=', command=lambda: self._on_equals('='), width=5, height=2, font=('Arial', 14))
+        equals.grid(row=r, column=0, columnspan=4, sticky='nsew')
 
         for i in range(5):
             self.master.rowconfigure(i, weight=1)
