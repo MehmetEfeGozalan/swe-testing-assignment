@@ -50,7 +50,15 @@ class CalculatorEngine:
         if self.stored is None:
             self.stored = cur
         else:
-            self.stored = compute(self.stored, self.pending_op, cur)
+            try:
+                self.stored = compute(self.stored, self.pending_op, cur)
+            except ValueError as e:
+                # propagate error state to display as a user-facing message
+                self.display = 'Error: ' + str(e)
+                self.stored = None
+                self.pending_op = None
+                self.reset_next = True
+                return
         self.pending_op = op
         self.reset_next = True
         self.display = str(self._format_number(self.stored))
@@ -59,7 +67,14 @@ class CalculatorEngine:
         if self.pending_op is None:
             return
         cur = self._current_value()
-        res = compute(self.stored if self.stored is not None else 0, self.pending_op, cur)
+        try:
+            res = compute(self.stored if self.stored is not None else 0, self.pending_op, cur)
+        except ValueError as e:
+            self.display = 'Error: ' + str(e)
+            self.stored = None
+            self.pending_op = None
+            self.reset_next = True
+            return
         self.display = str(self._format_number(res))
         self.stored = None
         self.pending_op = None
